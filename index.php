@@ -838,8 +838,37 @@
         </div>
 
         <div class="row no-gutters block-9">
+
+          <?php
+           $recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
+
+            $secret='6LdO2rgUAAAAALWsa0zLNjKug_2AuU_M4uzdWOj7';
+            //ENTER_YOUR_SECRET_KEY
+
+            $credential = array(
+                'secret' => $secret,
+                'response' => $this->input->post('g-recaptcha-response')
+            );
+
+            $verify = curl_init();
+            curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+            curl_setopt($verify, CURLOPT_POST, true);
+            curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($credential));
+            curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($verify);
+         
+            $status= json_decode($response, true);
+
+            if($status['success']){
+
+            }else{
+
+            }
+            ?>
+
           <div class="col-md-6 order-md-last d-flex">
-            <form action="#" class="bg-light p-4 p-md-5 contact-form">
+            <form action="" class="bg-light p-4 p-md-5 contact-form">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Your Name">
               </div>
@@ -862,6 +891,9 @@
           <div class="col-md-6 d-flex">
           	<div class="img" style="background-image: url(images/about.jpg);"></div>
           </div>
+
+
+
         </div>
       </div>
     </section>
